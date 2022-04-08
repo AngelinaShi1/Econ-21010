@@ -15,7 +15,8 @@ ggplot(data.frame(y))+aes(y)+geom_histogram(bins=100)
 #9b
 my_rbernoulli <- function(n, p) { 
   U <- runif(n, min=0, max=1)# [INSERT YOUR CODE HERE] 
-  x <- U <= p# Return draws
+  x <- U <= p
+  # Return draws
   return(x)
 }#MY_RBERNOULLI
 # Test the custom Bernoulli generator function
