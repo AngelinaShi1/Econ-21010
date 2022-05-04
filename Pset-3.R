@@ -9,20 +9,31 @@ wkly_wage <- df$WKLY_WAGE
 n=329509
 
 #b
-beta=(1/n*sum(wkly_wage*yrs_educ)-1/n*sum(wkly_wage)*sum(yrs_educ))/(1/n*sum(yrs_educ^2)-(1/n*sum(yrs_educ)^2))
+beta=(mean(wkly_wage*yrs_educ)-mean(wkly_wage)*mean(yrs_educ))/(mean(yrs_educ^2)-(mean(yrs_educ)^2))
 beta
-alpha=1/n*sum(wkly_wage)-1/n*sum(yrs_educ)*beta
+alpha=mean(wkly_wage)-mean(yrs_educ)*beta
 alpha
+
+#check
+lm(wkly_wage ~ yrs_educ)
 
 #c
-has_college_degree <- yrs_educ == 16
-beta=(1/n*sum(wkly_wage*has_college_degree)-1/n*sum(wkly_wage)*sum(has_college_degree))/(1/n*sum(has_college_degree^2)-(1/n*sum(has_college_degree)^2))
-beta
-alpha=1/n*sum(wkly_wage)-1/n*sum(has_college_degree)*beta
-alpha
+blp_yx <- alpha + 16 * beta
+blp_yx
 
 #d
-mu_college <- sum((has_college_degree)*(wkly_wage)) / sum(has_college_degree)
-x <- sum(has_college_degree * wkly_wage^2) / sum(has_college_degree) 
-se_college <- (1/(sqrt(n))*sqrt(x-mu_college^2))/sqrt(mean(has_college_degree))
-se_college
+blp_yx <- alpha + yrs_educ * beta
+epsilon <- wkly_wage-blp_yx
+se_numer <- sqrt(mean(epsilon^2 * (yrs_educ-mean(yrs_educ))^2))
+var <- mean(yrs_educ^2)-(mean(yrs_educ))^2
+se <- (se_numer/var / sqrt(n))
+se
+
+#e
+tn <- abs((beta-31)/se)
+tn
+
+#f
+p <- 2*(1-pnorm(tn))
+p
+
