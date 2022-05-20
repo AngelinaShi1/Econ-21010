@@ -13,6 +13,7 @@ alpha=mean(y)-mean(w)*beta
 alpha
 
 #b
-beta_w <- solve(w %*% t(w))*(w %*% y)
+X <- cbind(x, w)
+beta_w <- solve(t(X) %*% X) %*% (t(X) %*% y)
 beta_w
 
